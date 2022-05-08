@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import src.domain.entity.User;
+import src.domain.exceptions.InvalidUserDocumentException;
 import src.domain.ports.CpfValidatorIntegrationPort;
 import src.domain.repository.UserRepository;
 import src.domain.usecase.RegistryUserUseCase;
@@ -36,7 +37,7 @@ public class RegistryUserService implements RegistryUserUseCase {
         var cpfStatus = cpfValidator.checkCPF(user.getDocument());
 
         if (CpfStatusEnum.isUnable(cpfStatus.getStatus())) {
-            throw new RuntimeException("User cannot be registered, because your document is invalid");
+            throw new InvalidUserDocumentException();
         }
     }
 

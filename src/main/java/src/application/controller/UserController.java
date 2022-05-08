@@ -12,6 +12,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import src.application.controller.request.UserRequest;
 import src.domain.usecase.RegistryUserUseCase;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -22,7 +24,10 @@ public class UserController {
     private final RegistryUserUseCase registryUserService;
 
     @PostMapping
-    public ResponseEntity userRegistry(@RequestBody UserRequest request, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity userRegistry(
+            @RequestBody @Valid UserRequest request,
+            UriComponentsBuilder uriBuilder) {
+
         logger.info("Controller - resgistry User: {}", request.getName());
 
         var user = registryUserService.registry(request.toDomain());
