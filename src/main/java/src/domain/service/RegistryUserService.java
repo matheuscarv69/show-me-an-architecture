@@ -5,8 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import src.domain.entity.User;
-import src.domain.usecase.RegistryUserUseCase;
+import src.domain.ports.CpfValidatorIntegrationPort;
 import src.domain.repository.UserRepository;
+import src.domain.usecase.RegistryUserUseCase;
+import src.infrastructure.agents.cpfvalidator.response.CpfStatusEnum;
 
 import javax.transaction.Transactional;
 
@@ -16,6 +18,8 @@ public class RegistryUserService implements RegistryUserUseCase {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private final CpfValidatorIntegrationPort cpfValidator;
+
     private final UserRepository repository;
 
     @Override
@@ -23,7 +27,17 @@ public class RegistryUserService implements RegistryUserUseCase {
     public User registry(User user) {
         logger.info("Service - registry: User: {}", user.getName());
 
+        verifyDocument(user);
+
         return repository.registry(user);
+    }
+
+    private void verifyDocument(User user) {
+        var cpfStatus = cpfValidator.checkCPF(user.getDocument());
+
+        if (CpfStatusEnum.isUnable(cpfStatus.getStatus())) {
+            throw new RuntimeException("User cannot be registered, because your document is invalid");
+        }
     }
 
 }
