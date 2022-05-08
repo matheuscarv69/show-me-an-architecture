@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import src.domain.exceptions.InvalidUserDocumentException;
+import src.domain.exceptions.UserNotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
@@ -72,6 +73,28 @@ public class ExceptionHandlerAdvice {
                 .timestamp(Instant.now())
                 .status(status.value())
                 .error("Invalid document")
+                .message(exception.getMessage())
+                .path(request.getRequestURI())
+                .errors(errors)
+                .build();
+
+        return ResponseEntity.status(status).body(standardError);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<?> UserNotFoundExceptionHandler(
+            UserNotFoundException exception,
+            HttpServletRequest request
+    ) {
+        var errors = Map.of("UserId", exception.getMessage());
+
+        var status = HttpStatus.NOT_FOUND;
+
+        var standardError = StandardError
+                .builder()
+                .timestamp(Instant.now())
+                .status(status.value())
+                .error("Resource Not Found")
                 .message(exception.getMessage())
                 .path(request.getRequestURI())
                 .errors(errors)
