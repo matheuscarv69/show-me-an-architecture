@@ -20,9 +20,9 @@ public class UserController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final RegistryUserUseCase registryUserService;
+    private final RegistryUserUseCase registryUseCase;
 
-    private final GetUserUseCase getUserService;
+    private final GetUserUseCase getUserUseCase;
 
     @PostMapping
     public ResponseEntity userRegistry(
@@ -31,7 +31,7 @@ public class UserController {
 
         logger.info("Controller - resgistry User: {}", request.getName());
 
-        var user = registryUserService.registry(request.toDomain());
+        var user = registryUseCase.registry(request.toDomain());
 
         var uri = uriBuilder
                 .path("/users/{userId}")
@@ -47,7 +47,7 @@ public class UserController {
 
         logger.info("Controller - get User by ID: {}", userId);
 
-        var user = getUserService.getUserById(userId);
+        var user = getUserUseCase.getUserById(userId);
 
         var respose = new UserResponse(user);
 
