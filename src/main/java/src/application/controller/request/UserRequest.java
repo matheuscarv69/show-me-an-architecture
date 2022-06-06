@@ -1,5 +1,6 @@
 package src.application.controller.request;
 
+import lombok.Builder;
 import lombok.Getter;
 import src.domain.entity.User;
 
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Getter
+@Builder
 public class UserRequest extends AbstractRequest {
 
     @NotBlank

@@ -8,6 +8,7 @@ class ShowMeAnArchitectureApplicationTests {
 
     @Test
     void contextLoads() {
+        ShowMeAnArchitectureApplication.main(new String[]{});
     }
 
 }

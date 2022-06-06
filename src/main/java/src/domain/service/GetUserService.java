@@ -15,8 +15,6 @@ public class GetUserService implements GetUserUseCase {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final CpfValidatorIntegrationPort cpfValidator;
-
     private final UserRepository repository;
 
     @Override

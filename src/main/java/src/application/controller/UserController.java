@@ -49,9 +49,9 @@ public class UserController {
 
         var user = getUserUseCase.getUserById(userId);
 
-        var respose = new UserResponse(user);
+        var response = new UserResponse(user);
 
-        return ResponseEntity.ok(respose);
+        return ResponseEntity.ok(response);
 
     }
 

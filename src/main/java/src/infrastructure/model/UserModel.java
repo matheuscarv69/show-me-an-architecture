@@ -1,6 +1,6 @@
 package src.infrastructure.model;
 
-import lombok.NoArgsConstructor;
+import lombok.*;
 import src.domain.entity.User;
 
 import javax.persistence.Entity;
@@ -9,8 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity(name = "USER")
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
-public class UserModel {
+public class UserModel extends AbstractModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +27,7 @@ public class UserModel {
         email = user.getEmail();
     }
 
+    @Override
     public User toDomain() {
         return User
                 .builder()
