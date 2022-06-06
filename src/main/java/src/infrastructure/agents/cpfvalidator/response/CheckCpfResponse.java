@@ -1,10 +1,11 @@
 package src.infrastructure.agents.cpfvalidator.response;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
-@NoArgsConstructor
+@Builder
+@EqualsAndHashCode
+@AllArgsConstructor
 public class CheckCpfResponse {
 
     private CpfStatusEnum status;
